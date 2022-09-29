@@ -1,0 +1,12 @@
+= simple_form_for @song do |f|
+  = f.input :title
+  = f.association :authors, :collection => Author.all, :as => :check_boxes, label_method: :complete_name, value_method: :id, :include_hidden => false
+  - if song.image_cover.attached?
+    = image_tag(song.image_cover, style: 'height:200px;width:auto;', class: 'mb-3')
+  - else
+    = f.input :image_cover, input_html: { accept: ('image/png, image/gif, image/jpeg') }
+  = f.input :album
+  = f.input :plays
+  = f.simple_fields_for :comments do |comments_form|
+    = comments_form.input :message
+  = f.button :submit, "Save", class: "btn btn-primary"

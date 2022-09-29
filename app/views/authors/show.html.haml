@@ -1,0 +1,27 @@
+%p#notice= notice
+
+.card
+  .card-header Details
+  .card-body
+    - if @author.profile_image.attached?
+      = image_tag @author.profile_image, class:"card-img-top mb-5", style: 'height:200px;width:auto;', alt: "Profile Image"
+    - else
+      %p.small No profile pic.
+    %h5.card-title= "#{@author.name} #{@author.surname}"
+    %p.card-text In my opinion, a very magnificent author. Let's see what people think:
+
+    %section{:style => "background-color: #eee;"}
+      .container.py-5.h-100
+        .row.d-flex.align-items-center.h-100
+
+          - if @author.comments.count == 0
+            %p.small.ml-5= "Nothing to say, great author."
+          - else
+            .col.col-lg-6.mb-4.mb-lg-0
+              %figure.bg-white.p-3.rounded{:style => "border-left: .25rem solid #a34e78;"}
+                - @author.comments.map do |c| 
+                  %blockquote.blockquote.pb-2= c.message
+              %figcaption.blockquote-footer.mb-0.font-italic Anonymous
+    %br
+    %br
+    = link_to 'Back', authors_path, class:"btn btn-secondary"

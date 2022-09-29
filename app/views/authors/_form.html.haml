@@ -1,0 +1,11 @@
+= simple_form_for @author do |f|
+  = f.input :name
+  = f.input :surname
+  - if author.profile_image.attached?
+    = image_tag(author.profile_image, style: 'height:200px;width:auto;', class: 'mb-3')
+  - else
+    = f.input :profile_image, input_html: { accept: ('image/png, image/gif, image/jpeg') }
+  = f.simple_fields_for :comments do |comments_form|
+    = comments_form.input :message
+  %br
+  = f.button :submit, "Save", class: "btn btn-primary"

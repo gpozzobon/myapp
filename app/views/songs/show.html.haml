@@ -1,0 +1,38 @@
+%p#notice= notice
+
+.card
+  .card-header Details
+  .card-body
+    - if @song.image_cover.attached?
+      = link_to image_tag(@song.image_cover, class:"card-img-top mb-5", style: 'height:200px;width:auto;', alt: "Cover Image"), @song.image_cover, download: ''
+    - else
+      %p.small No image cover.
+
+    %h5.card-title= @song.title
+    %p.card-text
+      A song by 
+      %b= "#{@song.authors.map{ |author| author.name + ' ' + author.surname }.join(", ")}"
+      , included in the album 
+      %b= "#{@song.album}"
+      
+      %p.card-text
+        %b= "#{@song.plays} plays."
+        on
+        %b Spotify
+        %br
+      %p.card-text Let's see what people think:
+      %section{:style => "background-color: #eee;"}
+        .container.py-5.h-100
+          .row.d-flex.align-items-center.h-100
+
+            - if @song.comments.count == 0
+              %p.small.ml-5= "Nothing to say, great song."
+            - else
+              .col.col-lg-6.mb-lg-0
+                %figure.bg-white.p-3.rounded{:style => "border-left: .25rem solid #a34e78;"}
+                  - @song.comments.map do |c| 
+                    %blockquote.blockquote.pb-2= c.message
+                %figcaption.blockquote-footer.mb-0.font-italic Anonymous
+      %br
+
+    = link_to 'Back', songs_path, class:"btn btn-secondary"

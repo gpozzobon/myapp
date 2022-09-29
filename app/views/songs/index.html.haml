@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%h1 Songs
+
+%table.table.table-dark.table-striped
+  %thead
+    %tr
+      %th
+      %th Title
+      %th Author
+      %th Album
+      %th{:colspan => "3"}
+
+  %tbody
+    - @songs.each do |song|
+      %tr
+        %td
+          - if song.image_cover.attached?
+            = image_tag(song.image_cover, style: 'height:30px;')
+        %td= song.title
+        %td= song.authors.map{|author| "#{author.name} #{author.surname}"}.join(", ")
+        %td= song.album
+        %td= link_to icon('fa-solid', 'eye'), song
+        %td= link_to icon('fa-solid', 'file-pen'), edit_song_path(song)
+        %td= link_to icon('fa-solid', 'trash'), song, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+= link_to 'Download Report', song_report_path, class:"btn btn-primary mr-3"
+
+= link_to 'New Song', new_song_path, class:"btn btn-secondary"
